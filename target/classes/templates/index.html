@@ -4,223 +4,261 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homework Tracker - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Fredoka', sans-serif;
+            background: #FFE5E5;
+            background-image: 
+                radial-gradient(circle at 20% 30%, #FFB6C1 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, #87CEEB 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, #FFE4B5 0%, transparent 50%);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin: 0;
             padding: 20px;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 500px;
-        }
-        
-        .quote-container {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            animation: fadeIn 0.8s ease-in;
             position: relative;
             overflow: hidden;
         }
         
-        .quote-container::before {
-            content: '"';
+        /* Fun floating stars background */
+        body::before {
+            content: '⭐';
             position: absolute;
-            font-size: 100px;
-            opacity: 0.1;
-            top: -20px;
-            left: 20px;
-            font-family: Georgia, serif;
+            top: 10%;
+            left: 15%;
+            font-size: 2em;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+        }
+        
+        body::after {
+            content: '✨';
+            position: absolute;
+            bottom: 15%;
+            right: 20%;
+            font-size: 2.5em;
+            animation: float 5s ease-in-out infinite reverse;
+            opacity: 0.6;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 550px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .quote-container {
+            background: #FF6B9D;
+            color: white;
+            padding: 30px;
+            margin-bottom: 35px;
+            text-align: center;
+            box-shadow: 
+                0 8px 0 #CC5580,
+                0 8px 20px rgba(0,0,0,0.2);
+            position: relative;
+            border: 5px solid white;
+            transform: rotate(-1deg);
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: rotate(-1deg) translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(-1deg) translateY(0);
+            }
         }
         
         .quote-text {
-            font-size: 1.4em;
-            font-weight: 500;
-            line-height: 1.6;
-            margin: 0 0 15px 0;
+            font-size: 1.5em;
+            font-weight: 600;
+            line-height: 1.5;
             position: relative;
             z-index: 1;
-        }
-        
-        .refresh-quote {
-            cursor: pointer;
-            background: rgba(255,255,255,0.25);
-            border: 2px solid rgba(255,255,255,0.4);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 0.95em;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-        
-        .refresh-quote:hover {
-            background: rgba(255,255,255,0.35);
-            transform: scale(1.05);
-            border-color: rgba(255,255,255,0.6);
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
         }
         
         .login-container {
             background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            animation: slideUp 0.6s ease-out;
+            padding: 45px;
+            box-shadow: 
+                0 10px 0 #DDD,
+                0 10px 30px rgba(0,0,0,0.15);
+            transform: rotate(1deg);
+            border: 5px solid #333;
+            position: relative;
+            animation: popIn 0.5s ease-out 0.2s both;
+        }
+        
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: rotate(1deg) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(1deg) scale(1);
+            }
+        }
+        
+        .title-wrapper {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .emoji {
+            font-size: 4em;
+            margin-bottom: 5px;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
         
         h1 {
-            color: #667eea;
+            color: #2D3748;
             text-align: center;
-            margin-bottom: 10px;
-            font-size: 2em;
+            margin-bottom: 8px;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         
         .subtitle {
             text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
+            color: #FF6B9D;
+            margin-bottom: 35px;
+            font-size: 1.2em;
+            font-weight: 600;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #333;
+            margin-bottom: 10px;
+            color: #2D3748;
             font-weight: 600;
+            font-size: 1.1em;
         }
         
         input[type="text"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-            box-sizing: border-box;
+            padding: 15px;
+            border: 4px solid #333;
+            font-size: 1.1em;
+            font-family: 'Fredoka', sans-serif;
+            background: #FFFACD;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 #CCC;
         }
         
         input[type="text"]:focus {
             outline: none;
-            border-color: #667eea;
+            background: #FFF;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #CCC;
         }
         
         button[type="submit"] {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 18px;
+            background: #4ECDC4;
             color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: 600;
+            border: 5px solid #333;
+            font-size: 1.3em;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s;
+            font-family: 'Fredoka', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 0 #2D9B95;
+            transition: all 0.1s;
+            position: relative;
         }
         
         button[type="submit"]:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            background: #45B8B0;
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 #2D9B95;
         }
         
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        button[type="submit"]:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0 #2D9B95;
         }
         
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Fun decorative elements */
+        .deco-star {
+            position: absolute;
+            font-size: 1.5em;
+            animation: spin 10s linear infinite;
         }
         
-        .emoji {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-align: center;
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
+        
+        .deco-1 { top: -15px; left: -15px; }
+        .deco-2 { top: -15px; right: -15px; }
+        .deco-3 { bottom: -15px; left: -15px; }
+        .deco-4 { bottom: -15px; right: -15px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="quote-container">
-            <p class="quote-text" id="quoteText" th:text="${quote}">Loading inspiration...</p>
-            <button class="refresh-quote" onclick="changeQuote()">🔄 New Quote</button>
+            <p class="quote-text" th:text="${quote}">Loading inspiration...</p>
         </div>
         
         <div class="login-container">
-            <div class="emoji">📚</div>
-            <h1>Homework Tracker</h1>
-            <p class="subtitle">Track your progress, earn badges!</p>
+            <span class="deco-star deco-1">⭐</span>
+            <span class="deco-star deco-2">🌟</span>
+            <span class="deco-star deco-3">✨</span>
+            <span class="deco-star deco-4">💫</span>
+            
+            <div class="title-wrapper">
+                <div class="emoji">📚</div>
+                <h1>Homework Tracker</h1>
+                <p class="subtitle">Let's crush those assignments!</p>
+            </div>
             
             <form action="/login" method="post">
                 <div class="form-group">
-                    <label for="username">Enter Your Username</label>
+                    <label for="username">What's your name?</label>
                     <input type="text" id="username" name="username" 
-                           placeholder="e.g., student1" required autofocus>
+                           placeholder="Type your username here..." required autofocus>
                 </div>
-                <button type="submit">🚀 Let's Go!</button>
+                <button type="submit">🚀 START!</button>
             </form>
         </div>
     </div>
-    
-    <script>
-        const quotes = [
-            "Every expert was once a beginner. Keep learning! 🌟",
-            "You're braver than you believe, and smarter than you think! 💪",
-            "Mistakes are proof that you're trying! 🚀",
-            "Believe in yourself and you can achieve anything! ✨",
-            "Today is a great day to learn something new! 📚",
-            "Small steps every day lead to big achievements! 🎯",
-            "Your hard work will pay off! Keep going! 🌈",
-            "You've got this! Let's make today count! 💫",
-            "Learning is an adventure - enjoy the journey! 🗺️",
-            "Be proud of how far you've come! 🏆",
-            "Your brain is like a muscle - exercise it daily! 🧠",
-            "Dream big, work hard, stay focused! 🌠",
-            "You're doing amazing! Keep up the great work! 🎨",
-            "Every homework completed is a step closer to your goals! 🎓",
-            "Success is built one day at a time! 🏗️"
-        ];
-        
-        function getRandomQuote() {
-            return quotes[Math.floor(Math.random() * quotes.length)];
-        }
-        
-        function changeQuote() {
-            const quoteElement = document.getElementById('quoteText');
-            quoteElement.style.animation = 'none';
-            setTimeout(() => {
-                quoteElement.textContent = getRandomQuote();
-                quoteElement.style.animation = 'fadeIn 0.8s ease-in';
-            }, 10);
-        }
-    </script>
 </body>
 </html>
