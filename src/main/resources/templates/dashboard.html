@@ -1,115 +1,518 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: #FFE5E5;
+            background-image:
+                radial-gradient(circle at 20% 30%, #FFB6C1 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, #87CEEB 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, #FFE4B5 0%, transparent 50%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Fun floating shapes background */
+        body::before {
+            content: '★';
+            position: absolute;
+            top: 10%;
+            left: 15%;
+            font-size: 2em;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+            color: #FFB6C1;
+        }
+
+        body::after {
+            content: '★';
+            position: absolute;
+            bottom: 15%;
+            right: 20%;
+            font-size: 2.5em;
+            animation: float 5s ease-in-out infinite reverse;
+            opacity: 0.6;
+            color: #87CEEB;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #FF6B9D;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow:
+                0 8px 0 #CC5580,
+                0 8px 20px rgba(0,0,0,0.2);
+            border: 5px solid white;
+            transform: rotate(-0.5deg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: white;
+            font-size: 2em;
+            font-weight: 700;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            border: 3px solid white;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+        }
+
+        .avatar.bear { background: #8B4513; }
+        .avatar.cat { background: #FF69B4; }
+        .avatar.rabbit { background: #98FB98; }
+
+        .username {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .logout-btn {
+            background: #FF4444 !important;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            margin-bottom: 30px;
+            box-shadow:
+                0 10px 0 #DDD,
+                0 10px 30px rgba(0,0,0,0.15);
+            border: 5px solid #333;
+            position: relative;
+            transform: rotate(0.5deg);
+        }
+
+        .card:nth-child(even) {
+            transform: rotate(-0.5deg);
+        }
+
+        .card-header {
+            background: #4ECDC4;
+            color: white;
+            padding: 20px;
+            font-size: 1.5em;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 3px solid #333;
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        /* Badges */
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .badge-item {
+            background: #FFFACD;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            border: 3px solid #333;
+            box-shadow: 0 4px 0 #CCC;
+            transition: all 0.3s;
+        }
+
+        .badge-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 0 #CCC;
+        }
+
+        .badge-icon {
+            font-size: 2.5em;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .badge-name {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .badge-desc {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .no-badges {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+
+        /* Upload Section */
+        .upload-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .upload-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .upload-btn {
+            padding: 15px 25px;
+            background: #4ECDC4;
+            color: white;
+            border: 5px solid #333;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Fredoka', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 0 #2D9B95;
+            transition: all 0.1s;
+            border-radius: 10px;
+        }
+
+        .upload-btn:hover {
+            background: #45B8B0;
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 #2D9B95;
+        }
+
+        .upload-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0 #2D9B95;
+        }
+
+        .camera-btn {
+            background: #FF6B9D !important;
+            box-shadow: 0 6px 0 #CC5580 !important;
+        }
+
+        .camera-btn:hover {
+            background: #E55A8A !important;
+            box-shadow: 0 4px 0 #CC5580 !important;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-instructions {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        /* History */
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 2px solid #EEE;
+            gap: 20px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            border: 3px solid #333;
+            object-fit: cover;
+            box-shadow: 0 4px 0 #CCC;
+        }
+
+        .history-content {
+            flex: 1;
+        }
+
+        .history-title {
+            font-weight: 700;
+            color: #4ECDC4;
+            margin-bottom: 5px;
+        }
+
+        .history-date {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .status-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .no-history {
+            text-align: center;
+            color: #666;
+            padding: 40px;
+            font-style: italic;
+        }
+
+        /* Decorative elements */
+        .deco-star {
+            position: absolute;
+            font-size: 1.5em;
+            animation: spin 10s linear infinite;
+            color: #FFD700;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .deco-1 { top: -15px; left: -15px; }
+        .deco-2 { top: -15px; right: -15px; }
+        .deco-3 { bottom: -15px; left: -15px; }
+        .deco-4 { bottom: -15px; right: -15px; }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .user-info {
+                justify-content: center;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .history-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .badges-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+
+            .upload-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .upload-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+
+    <script>
+        // Handle file selection and form submission
+        function setupFileInput(inputId) {
+            const input = document.getElementById(inputId);
+            const actualInput = document.getElementById('actual-file-input');
+            const form = document.getElementById('upload-form');
+
+            input.addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    // Copy the selected file to the actual form input
+                    const file = e.target.files[0];
+                    const dt = new DataTransfer();
+                    dt.items.add(file);
+                    actualInput.files = dt.files;
+
+                    // Submit the form
+                    form.submit();
+                }
+            });
+        }
+
+        // Set up both file inputs
+        setupFileInput('camera-input');
+        setupFileInput('file-input');
+
+        // Add visual feedback when buttons are clicked
+        document.querySelectorAll('.upload-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- Navbar -->
-    <nav class="bg-white shadow">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <h1 class="text-xl font-bold text-blue-600">HW Tracker</h1>
+<body>
+    <div class="container">
+        <!-- Navbar -->
+        <div class="navbar">
+            <h1>📖 Homework Dashboard</h1>
+            <div class="user-info">
+                <div class="avatar" th:classappend="${'avatar ' + user.avatarAnimal.toLowerCase()}">
+                    <span th:if="${user.avatarAnimal == 'BEAR'}">🐻</span>
+                    <span th:if="${user.avatarAnimal == 'CAT'}">🐱</span>
+                    <span th:if="${user.avatarAnimal == 'RABBIT'}">🐰</span>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-2">
-                        <!-- Avatar Display -->
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
-                             th:classappend="${'bg-' + user.avatarColor.toLowerCase() + '-500'}">
-                             <i th:if="${user.avatarAnimal == 'BEAR'}" class="fas fa-paw"></i>
-                             <i th:if="${user.avatarAnimal == 'CAT'}" class="fas fa-cat"></i>
-                             <i th:if="${user.avatarAnimal == 'RABBIT'}" class="fas fa-carrot"></i> <!-- rabbit icon alternative -->
-                        </div>
-                        <span class="text-gray-700" th:text="${user.username}">User</span>
-                    </div>
-                    <a href="/profile" class="text-gray-500 hover:text-gray-700">Settings</a>
-                    <a href="/logout" class="text-red-500 hover:text-red-700">Logout</a>
-                </div>
+                <span class="username" th:text="${user.username}">User</span>
+            </div>
+            <div class="nav-links">
+                <a href="/profile">Settings</a>
+                <a href="/logout" class="logout-btn">Logout</a>
             </div>
         </div>
-    </nav>
 
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        
         <!-- Badges Section -->
-        <div class="mb-8">
-            <h2 class="text-lg font-medium text-gray-900 mb-4">Your Badges</h2>
-            <div class="flex space-x-4 overflow-x-auto pb-2">
-                <div th:each="badge : ${user.badges}" class="flex flex-col items-center bg-white p-4 rounded-lg shadow min-w-[120px]">
-                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 mb-2">
-                        <i class="fas fa-medal text-xl"></i>
+        <div class="card">
+            <div class="card-header">
+                🏆 Your Awesome Badges!
+            </div>
+            <div class="card-content">
+                <div class="badges-grid" th:if="${!#lists.isEmpty(user.badges)}">
+                    <div th:each="badge : ${user.badges}" class="badge-item">
+                        <div class="badge-icon">🏅</div>
+                        <div class="badge-name" th:text="${badge.displayName}">Badge</div>
+                        <div class="badge-desc" th:text="${badge.description}">Description</div>
                     </div>
-                    <span class="text-sm font-bold text-gray-800 text-center" th:text="${badge.displayName}">Badge</span>
-                    <span class="text-xs text-gray-500 text-center" th:text="${badge.description}">Desc</span>
                 </div>
-                <div th:if="${#lists.isEmpty(user.badges)}" class="text-gray-500 italic">
-                    No badges yet. Start uploading to earn them!
+                <div th:if="${#lists.isEmpty(user.badges)}" class="no-badges">
+                    No badges yet! Start uploading homework to earn some awesome badges! 🌟
                 </div>
             </div>
         </div>
 
         <!-- Upload Section -->
-        <div class="bg-white overflow-hidden shadow rounded-lg mb-8">
-            <div class="px-4 py-5 sm:p-6">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Upload Homework</h3>
-                <div class="mt-2 max-w-xl text-sm text-gray-500">
-                    <p>Take a picture or select a file to log your homework.</p>
-                </div>
-                <form action="/upload" method="post" enctype="multipart/form-data" class="mt-5 sm:flex sm:items-center">
-                    <div class="w-full sm:max-w-xs">
-                        <label for="file" class="sr-only">Choose file</label>
-                        <input type="file" name="file" id="file" accept="image/*" capture="environment" required
-                               class="block w-full text-sm text-gray-500
-                                      file:mr-4 file:py-2 file:px-4
-                                      file:rounded-full file:border-0
-                                      file:text-sm file:font-semibold
-                                      file:bg-blue-50 file:text-blue-700
-                                      hover:file:bg-blue-100">
+        <div class="card">
+            <div class="card-header">
+                📸 Upload Your Homework!
+            </div>
+            <div class="card-content">
+                <div class="upload-options">
+                    <div class="upload-instructions">
+                        Choose how you want to add your homework:
                     </div>
-                    <button type="submit" class="mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        Upload
-                    </button>
+                    <div class="upload-buttons">
+                        <button type="button" class="upload-btn camera-btn" onclick="document.getElementById('camera-input').click()">
+                            📷 TAKE PHOTO
+                        </button>
+                        <button type="button" class="upload-btn" onclick="document.getElementById('file-input').click()">
+                            📁 UPLOAD FILE
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hidden file inputs -->
+                <input type="file" name="file" id="camera-input" accept="image/*" capture="environment" class="file-input">
+                <input type="file" name="file" id="file-input" accept="image/*" class="file-input">
+
+                <!-- Upload form (will be submitted when file is selected) -->
+                <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data" style="display: none;">
+                    <input type="file" name="file" id="actual-file-input">
+                    <button type="submit" id="actual-submit-btn"></button>
                 </form>
             </div>
         </div>
 
-        <!-- Records List -->
-        <h2 class="text-lg font-medium text-gray-900 mb-4">History</h2>
-        <div class="bg-white shadow overflow-hidden sm:rounded-md">
-            <ul class="divide-y divide-gray-200">
-                <li th:each="homework : ${homeworks}">
-                    <div class="px-4 py-4 sm:px-6 flex items-center">
-                        <div class="flex-shrink-0 h-16 w-16 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
-                            <img th:src="@{'/uploads/' + ${homework.filePath}}" alt="Homework" class="h-full w-full object-cover">
-                        </div>
-                        <div class="ml-4 flex-1">
-                            <div class="flex items-center justify-between">
-                                <p class="text-sm font-medium text-blue-600 truncate">
-                                    Homework Upload
-                                </p>
-                                <div class="ml-2 flex-shrink-0 flex">
-                                    <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Completed
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="mt-2 sm:flex sm:justify-between">
-                                <div class="sm:flex">
-                                    <p class="flex items-center text-sm text-gray-500">
-                                        <i class="far fa-calendar-alt mr-1.5 text-gray-400"></i>
-                                        <span th:text="${#temporals.format(homework.uploadDateTime, 'dd MMM yyyy HH:mm')}">Date</span>
-                                    </p>
-                                </div>
+        <!-- History Section -->
+        <div class="card">
+            <div class="card-header">
+                📚 Your Homework History
+            </div>
+            <div class="card-content">
+                <div th:if="${!#lists.isEmpty(homeworks)}">
+                    <div th:each="homework : ${homeworks}" class="history-item">
+                        <img th:src="@{'/uploads/' + ${homework.filePath}}" alt="Homework" class="history-image">
+                        <div class="history-content">
+                            <div class="history-title">Homework Upload</div>
+                            <div class="history-date">
+                                📅 <span th:text="${#temporals.format(homework.uploadDateTime, 'dd MMM yyyy HH:mm')}">Date</span>
                             </div>
                         </div>
+                        <div class="status-badge">✅ Completed</div>
                     </div>
-                </li>
-                <li th:if="${#lists.isEmpty(homeworks)}" class="px-4 py-4 text-center text-gray-500">
-                    No uploads yet.
-                </li>
-            </ul>
+                </div>
+                <div th:if="${#lists.isEmpty(homeworks)}" class="no-history">
+                    No homework uploaded yet. Let's get started! 📝
+                </div>
+            </div>
         </div>
     </div>
 </body>
