@@ -30,25 +30,27 @@
             overflow: hidden;
         }
         
-        /* Fun floating stars background */
+        /* Fun floating shapes background */
         body::before {
-            content: '⭐';
+            content: '★';
             position: absolute;
             top: 10%;
             left: 15%;
             font-size: 2em;
             animation: float 6s ease-in-out infinite;
             opacity: 0.6;
+            color: #FFB6C1;
         }
         
         body::after {
-            content: '✨';
+            content: '★';
             position: absolute;
             bottom: 15%;
             right: 20%;
             font-size: 2.5em;
             animation: float 5s ease-in-out infinite reverse;
             opacity: 0.6;
+            color: #87CEEB;
         }
         
         @keyframes float {
@@ -126,11 +128,12 @@
             margin-bottom: 25px;
         }
         
-        .emoji {
+        .book-icon {
             font-size: 4em;
             margin-bottom: 5px;
             display: inline-block;
             animation: bounce 2s ease-in-out infinite;
+            color: #FF6B9D;
         }
         
         @keyframes bounce {
@@ -239,13 +242,13 @@
         </div>
         
         <div class="login-container">
-            <span class="deco-star deco-1">⭐</span>
-            <span class="deco-star deco-2">🌟</span>
-            <span class="deco-star deco-3">✨</span>
-            <span class="deco-star deco-4">💫</span>
+            <span class="deco-star deco-1">★</span>
+            <span class="deco-star deco-2">★</span>
+            <span class="deco-star deco-3">★</span>
+            <span class="deco-star deco-4">★</span>
             
             <div class="title-wrapper">
-                <div class="emoji">📚</div>
+                <div class="book-icon">�</div>
                 <h1>Homework Tracker</h1>
                 <p class="subtitle">Let's crush those assignments!</p>
             </div>
@@ -256,7 +259,7 @@
                     <input type="text" id="username" name="username" 
                            placeholder="Type your username here..." required autofocus>
                 </div>
-                <button type="submit">🚀 START!</button>
+                <button type="submit">START!</button>
             </form>
         </div>
     </div>
