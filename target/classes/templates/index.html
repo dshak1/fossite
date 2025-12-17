@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework Tracker - Login</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .quote-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            animation: fadeIn 0.8s ease-in;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-container::before {
+            content: '"';
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.1;
+            top: -20px;
+            left: 20px;
+            font-family: Georgia, serif;
+        }
+        
+        .quote-text {
+            font-size: 1.4em;
+            font-weight: 500;
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .refresh-quote {
+            cursor: pointer;
+            background: rgba(255,255,255,0.25);
+            border: 2px solid rgba(255,255,255,0.4);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95em;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .refresh-quote:hover {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.6);
+        }
+        
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .emoji {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="quote-container">
+            <p class="quote-text" id="quoteText" th:text="${quote}">Loading inspiration...</p>
+            <button class="refresh-quote" onclick="changeQuote()">🔄 New Quote</button>
+        </div>
+        
+        <div class="login-container">
+            <div class="emoji">📚</div>
+            <h1>Homework Tracker</h1>
+            <p class="subtitle">Track your progress, earn badges!</p>
+            
+            <form action="/login" method="post">
+                <div class="form-group">
+                    <label for="username">Enter Your Username</label>
+                    <input type="text" id="username" name="username" 
+                           placeholder="e.g., student1" required autofocus>
+                </div>
+                <button type="submit">🚀 Let's Go!</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const quotes = [
+            "Every expert was once a beginner. Keep learning! 🌟",
+            "You're braver than you believe, and smarter than you think! 💪",
+            "Mistakes are proof that you're trying! 🚀",
+            "Believe in yourself and you can achieve anything! ✨",
+            "Today is a great day to learn something new! 📚",
+            "Small steps every day lead to big achievements! 🎯",
+            "Your hard work will pay off! Keep going! 🌈",
+            "You've got this! Let's make today count! 💫",
+            "Learning is an adventure - enjoy the journey! 🗺️",
+            "Be proud of how far you've come! 🏆",
+            "Your brain is like a muscle - exercise it daily! 🧠",
+            "Dream big, work hard, stay focused! 🌠",
+            "You're doing amazing! Keep up the great work! 🎨",
+            "Every homework completed is a step closer to your goals! 🎓",
+            "Success is built one day at a time! 🏗️"
+        ];
+        
+        function getRandomQuote() {
+            return quotes[Math.floor(Math.random() * quotes.length)];
+        }
+        
+        function changeQuote() {
+            const quoteElement = document.getElementById('quoteText');
+            quoteElement.style.animation = 'none';
+            setTimeout(() => {
+                quoteElement.textContent = getRandomQuote();
+                quoteElement.style.animation = 'fadeIn 0.8s ease-in';
+            }, 10);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/HomeworkApplication.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/WebConfig.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/controller/MainController.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/model/Badge.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/model/Homework.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/model/User.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/repository/BadgeRepository.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/repository/HomeworkRepository.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/repository/UserRepository.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/service/BadgeService.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/service/FileStorageService.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/service/HomeworkService.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/service/QuoteService.java
+/Users/diarshakimov/Downloads/fossite/src/main/java/com/fossite/homework/service/UserService.java

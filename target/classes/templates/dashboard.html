@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-blue-600">HW Tracker</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <!-- Avatar Display -->
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
+                             th:classappend="${'bg-' + user.avatarColor.toLowerCase() + '-500'}">
+                             <i th:if="${user.avatarAnimal == 'BEAR'}" class="fas fa-paw"></i>
+                             <i th:if="${user.avatarAnimal == 'CAT'}" class="fas fa-cat"></i>
+                             <i th:if="${user.avatarAnimal == 'RABBIT'}" class="fas fa-carrot"></i> <!-- rabbit icon alternative -->
+                        </div>
+                        <span class="text-gray-700" th:text="${user.username}">User</span>
+                    </div>
+                    <a href="/profile" class="text-gray-500 hover:text-gray-700">Settings</a>
+                    <a href="/logout" class="text-red-500 hover:text-red-700">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        
+        <!-- Badges Section -->
+        <div class="mb-8">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Your Badges</h2>
+            <div class="flex space-x-4 overflow-x-auto pb-2">
+                <div th:each="badge : ${user.badges}" class="flex flex-col items-center bg-white p-4 rounded-lg shadow min-w-[120px]">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 mb-2">
+                        <i class="fas fa-medal text-xl"></i>
+                    </div>
+                    <span class="text-sm font-bold text-gray-800 text-center" th:text="${badge.displayName}">Badge</span>
+                    <span class="text-xs text-gray-500 text-center" th:text="${badge.description}">Desc</span>
+                </div>
+                <div th:if="${#lists.isEmpty(user.badges)}" class="text-gray-500 italic">
+                    No badges yet. Start uploading to earn them!
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="bg-white overflow-hidden shadow rounded-lg mb-8">
+            <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Upload Homework</h3>
+                <div class="mt-2 max-w-xl text-sm text-gray-500">
+                    <p>Take a picture or select a file to log your homework.</p>
+                </div>
+                <form action="/upload" method="post" enctype="multipart/form-data" class="mt-5 sm:flex sm:items-center">
+                    <div class="w-full sm:max-w-xs">
+                        <label for="file" class="sr-only">Choose file</label>
+                        <input type="file" name="file" id="file" accept="image/*" capture="environment" required
+                               class="block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-full file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                    </div>
+                    <button type="submit" class="mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Upload
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Records List -->
+        <h2 class="text-lg font-medium text-gray-900 mb-4">History</h2>
+        <div class="bg-white shadow overflow-hidden sm:rounded-md">
+            <ul class="divide-y divide-gray-200">
+                <li th:each="homework : ${homeworks}">
+                    <div class="px-4 py-4 sm:px-6 flex items-center">
+                        <div class="flex-shrink-0 h-16 w-16 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                            <img th:src="@{'/uploads/' + ${homework.filePath}}" alt="Homework" class="h-full w-full object-cover">
+                        </div>
+                        <div class="ml-4 flex-1">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm font-medium text-blue-600 truncate">
+                                    Homework Upload
+                                </p>
+                                <div class="ml-2 flex-shrink-0 flex">
+                                    <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Completed
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-2 sm:flex sm:justify-between">
+                                <div class="sm:flex">
+                                    <p class="flex items-center text-sm text-gray-500">
+                                        <i class="far fa-calendar-alt mr-1.5 text-gray-400"></i>
+                                        <span th:text="${#temporals.format(homework.uploadDateTime, 'dd MMM yyyy HH:mm')}">Date</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li th:if="${#lists.isEmpty(homeworks)}" class="px-4 py-4 text-center text-gray-500">
+                    No uploads yet.
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,13 @@
+com/fossite/homework/model/Homework.class
+com/fossite/homework/HomeworkApplication.class
+com/fossite/homework/service/BadgeService.class
+com/fossite/homework/controller/MainController.class
+com/fossite/homework/service/UserService.class
+com/fossite/homework/WebConfig.class
+com/fossite/homework/model/Badge.class
+com/fossite/homework/repository/BadgeRepository.class
+com/fossite/homework/service/HomeworkService.class
+com/fossite/homework/repository/UserRepository.class
+com/fossite/homework/model/User.class
+com/fossite/homework/repository/HomeworkRepository.class
+com/fossite/homework/service/FileStorageService.class
